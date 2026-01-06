@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevGroup | Premium Digital Collective</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #8b5cf6; /* Purple theme for different colors */
+            --secondary-color: #ec4899; /* Pink accent */
+            --dark-bg: #0f172a;
+            --light-bg: #f8fafc;
+            --gradient-purple: linear-gradient(135deg, #8b5cf6, #ec4899);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #334155;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Loading Screen */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease-out;
+        }
+        #loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+
+        }
+        .loader-logo {
+            font-size: 4rem;
+            font-weight: 800;
+            background: var(--gradient-purple);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Navbar */
+        .navbar {
+            padding: 1rem 0;
+            background: rgba(15, 23, 42, 0.95) !important;
+            backdrop-filter: blur(15px);
+            transition: all 0.3s ease;
+        }
+        .navbar.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(15, 23, 42, 0.98) !important;
+        }
+
+        /* Hero with Background Video */
+        .hero-section {
+            height: 90vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(139, 92, 246, 0.3));
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .hero-content {
+            animation: float 4s ease-in-out infinite;
+        }
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: var(--gradient-purple);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-padding { padding: 100px 0; }
+        .section-title {
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-purple);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Service Cards */
+        .service-card {
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        .service-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 40px -10px rgba(139, 92, 246, 0.3);
+            border-color: var(--primary-color);
+        }
+        .icon-box {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-purple);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            transition: 0.3s;
+        }
+        .service-card:hover .icon-box {
+            transform: rotateY(360deg);
+        }
+
+        /* Portfolio */
+        .portfolio-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+        }
+        .portfolio-card:hover {
+            transform: scale(1.05);
+        }
+        .portfolio-card img {
+            transition: transform 0.6s ease;
+        }
+        .portfolio-card:hover img {
+            transform: scale(1.1);
+        }
+        .portfolio-overlay {
+            background: linear-gradient(to top, rgba(139, 92, 246, 0.9), transparent);
+            position: absolute;
+            bottom: 0; left: 0; right: 0; padding: 40px 20px 20px;
+            transform: translateY(100%);
+            transition: 0.4s ease-in-out;
+        }
+        .portfolio-card:hover .portfolio-overlay {
+            transform: translateY(0);
+        }
+
+        /* Ticker */
+        .ticker-container {
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px 0;
+            border-top: 1px solid #f1f5f9;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .ticker-wrapper {
+            display: flex;
+            width: calc(250px * 12);
+            animation: infiniteScroll 30s linear infinite;
+        }
+        @keyframes infiniteScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-250px * 6)); }
+        }
+        .client-box {
+            width: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+        .client-logo {
+            max-width: 130px;
+            height: auto;
+            filter: grayscale(100%);
+            opacity: 0.4;
+            transition: all 0.4s ease;
+        }
+        .client-box:hover {
+            transform: scale(1.2);
+            z-index: 10;
+        }
+        .client-box:hover .client-logo {
+            filter: grayscale(0%) drop-shadow(0 10px 15px rgba(139, 92, 246, 0.2));
+            opacity: 1;
+        }
+        .ticker-container:hover .ticker-wrapper {
+            animation-play-state: paused;
+        }
+        .ticker-title {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        /* Stats */
+        .stats-section {
+            background: var(--dark-bg);
+            padding: 60px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .stat-item h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--gradient-purple);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Tech Badges */
+.tech-badge {
+    padding: 10px 24px;
+    background: rgba(212, 175, 55, 0.05); /* Very faint Gold tint */
+    border: 1px solid rgba(212, 175, 55, 0.4); /* Subtle Gold border */
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin: 5px;
+    transition: 0.3s;
+    color: #ec4899; /* The exact Gold from your :root */
+    text-transform: uppercase;
+}
+
+.tech-badge:hover {
+    background: #D4AF37;
+    color: #0B0B0B;
+    transform: translateY(-2px);
+}
+
+        /* Testimonials */
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-left: 5px solid var(--primary-color);
+            padding: 30px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateX(10px);
+        }
+
+        /* FAQ */
+        .faq-section .accordion-item {
+            border: none;
+            margin-bottom: 15px;
+            border-radius: 12px !important;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Student Hub */
+        .student-hub {
+            background: linear-gradient(to right, rgba(248, 250, 252, 0.1), rgba(236, 72, 153, 0.1));
+            border-radius: 50px;
+            margin: 40px 0;
+            backdrop-filter: blur(10px);
+        }
+        .academic-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 20px;
+            transition: 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+        .academic-card:hover {
+            border-bottom: 4px solid var(--primary-color);
+            transform: scale(1.03);
+        }
+        .project-tag {
+            font-size: 0.7rem;
+            background: var(--gradient-purple);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .btn-student {
+            background: var(--gradient-purple);
+            color: white;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-student:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 25px -5px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Team */
+        .team-img {
+            transition: 0.5s ease;
+            filter: grayscale(100%);
+        }
+        .team-img:hover {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: var(--gradient-purple);
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Counters Animation */
+        .counter {
+            font-size: 3rem;
+            font-weight: 800;
+            transition: all 0.3s ease;
+        }
+        .counter.animate {
+            animation: countUp 1s ease-out;
+        }
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="loader-logo">VANT<span class="text-primary">AGLE</span></div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3" href="#">VENT<span class="text-primary">AGLE</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link px-3" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="works.html">Our Product</a></li>
+<li class="nav-item ms-lg-3">
+    <a class="btn btn-primary px-4 py-2 rounded-pill" 
+       href="https://wa.me/917736671519?text=Hello%20Vantagle%20Team,%20I%20am%20interested%20in%20your%20ERP%20services." 
+       target="_blank">
+       Contact Us
+    </a>
+</li>                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section text-white">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="https://videos.pexels.com/video-files/31699870/13506486_1920_1080_30fps.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 hero-content" data-aos="fade-right" data-aos-duration="1200">
+                    <span class="badge bg-primary px-3 py-2 mb-3 rounded-pill shadow-sm">Elite Freelance Collective</span>
+                    <h1 class="hero-title mb-4">We code the Future of your business.</h1>
+                    <p class="lead mb-5 fs-4 text-light">From scalable web applications to high-impact digital marketing, we deliver end-to-end technology solutions.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#portfolio" class="btn btn-primary btn-lg px-5 py-3 rounded-pill">View Projects</a>
+                        <a href="#contact" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill">Get a Quote</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- <section class="ticker-container">
+        <div class="container text-center">
+            <span class="ticker-title" data-aos="fade-up">Trusted by innovative brands</span>
+        </div>
+        
+        <div class="ticker-wrapper">
+            <div class="client-box">
+<a href="https://multicomgiftscheme.in/" target="_blank" rel="noopener noreferrer" class="logo-link">
+    <img src="logo1.png" class="client-logo" alt="Amazon">
+</a>            </div>
+            <div class="client-box">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="client-logo" alt="Google">
+            </div>
+            <div class="client-box">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" class="client-logo" alt="Netflix">
+            </div>
+            <div class="client-box">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Slack_Technologies_Logo.svg" class="client-logo" alt="Slack">
+            </div>
+            <div class="client-box">
+<a href="https://wistoraiq.com/" target="_blank" rel="noopener noreferrer" class="logo-link">
+    <img src="wisw.png" class="client-logo" alt="Wistoraiqsolution">
+</a>            </div>
+            <div class="client-box">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Meta_Platforms_Inc._logo.svg" class="client-logo" alt="Meta">
+            </div>
+
+            <div class="client-box">
+                <a href="https://multicomgiftscheme.in/" target="_blank" rel="noopener noreferrer" class="logo-link">
+    <img src="logo1.png" class="client-logo" alt="Amazon">
+</a> 
+            </div>
+            <div class="client-box">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="client-logo" alt="Google">
+            </div>
+            <div class="client-box">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" class="client-logo" alt="Netflix">
+            </div>
+            <div class="client-box">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Slack_Technologies_Logo.svg" class="client-logo" alt="Slack">
+            </div>
+            <div class="client-box">
+<a href="https://wistoraiq.com/" target="_blank" rel="noopener noreferrer" class="logo-link">
+    <img src="wisw.png" class="client-logo" alt="Wistoraiqsolution">
+</a>            </div>
+            <div class="client-box">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Meta_Platforms_Inc._logo.svg" class="client-logo" alt="Meta">
+            </div>
+        </div>
+    </section> -->
+
+    <section id="services" class="section-padding bg-light">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-down">
+                <h2 class="section-title">Our Expertise</h2>
+                <p class="text-muted col-lg-6 mx-auto">We combine technical excellence with creative strategy to build digital products that matter.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="100">
+                    <div class="service-card p-5 h-100 shadow-sm">
+                        <div class="icon-box"><i class="fas fa-layer-group fa-2x"></i></div>
+                        <h4 class="fw-bold">Web Applications</h4>
+                        <p class="text-muted">Enterprise-grade SaaS products and complex web platforms built with React, Node, and Python.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="200">
+                    <div class="service-card p-5 h-100 shadow-sm">
+                        <div class="icon-box"><i class="fas fa-mobile-screen fa-2x"></i></div>
+                        <h4 class="fw-bold">Mobile Apps</h4>
+                        <p class="text-muted">Seamless iOS and Android experiences using Flutter and React Native for global reach.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="300">
+                    <div class="service-card p-5 h-100 shadow-sm">
+                        <div class="icon-box"><i class="fas fa-video fa-2x"></i></div>
+                        <h4 class="fw-bold">Video Ads & Motion</h4>
+                        <p class="text-muted">Engaging visual storytelling and 4K video advertisements that drive user conversion.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="section-padding">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-end mb-5" data-aos="fade-right">
+                <div>
+                    <h2 class="section-title mb-0">Featured Work</h2>
+                </div>
+                <a href="#" class="btn btn-outline-primary rounded-pill px-4">See All Projects</a>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6" data-aos="flip-left" data-aos-duration="1000">
+                    <div class="portfolio-card">
+                        <img src="Gemini_Generated_Image_9zpwxc9zpwxc9zpw.png" class="img-fluid" alt="Work">
+                        <div class="portfolio-overlay">
+                            <h4 class="text-white fw-bold">CRM Software</h4>
+                            <p class="text-white-50">Web App / Software Development</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6" data-aos="flip-right" data-aos-duration="1000">
+                    <div class="portfolio-card">
+                        <img src="Gemini_Generated_Image_n7h7iyn7h7iyn7h7.png" class="img-fluid" alt="Work">
+                        <div class="portfolio-overlay">
+                            <h4 class="text-white fw-bold">College App</h4>
+                            <p class="text-white-50">Mobile Development / UI Design</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section text-white text-center">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-6 col-md-3" data-aos="fade-up">
+                    <h2 class="counter">50</h2>
+                    <p class="text-white-50">Projects Delivered</p>
+                </div>
+                <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="100">
+                    <h2 class="counter">50</h2>
+                    <p class="text-white-50">Client Satisfaction</p>
+                </div>
+                <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="200">
+                    <h2 class="counter">12+</h2>
+                    <p class="text-white-50">Experts</p>
+                </div>
+                <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="300">
+                    <h2 class="counter">24/7</h2>
+                    <p class="text-white-50">Security Support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding bg-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5" data-aos="fade-right">
+                    <h2 class="section-title">The Technologies We Master</h2>
+                    <p class="text-muted">We don't just use tools; we choose the right architecture for your specific needs to ensure speed, security, and scalability.</p>
+                </div>
+                <div class="col-lg-7" data-aos="fade-left">
+                    <div class="ps-lg-5">
+                        <h6 class="fw-bold mb-3">Frontend & Backend</h6>
+                        <span class="tech-badge">React.js</span> <span class="tech-badge">Node.js</span> 
+                        <span class="tech-badge">Python</span> <span class="tech-badge">TypeScript</span> 
+                        <span class="tech-badge">Next.js</span> <span class="tech-badge">Django</span>
+                        
+                        <h6 class="fw-bold mt-4 mb-3">Cloud & Database</h6>
+                        <span class="tech-badge">AWS</span> <span class="tech-badge">Firebase</span> 
+                        <span class="tech-badge">MongoDB</span> <span class="tech-badge">PostgreSQL</span> 
+                        <span class="tech-badge">Docker</span>
+                        
+                        <h6 class="fw-bold mt-4 mb-3">Mobile & Marketing</h6>
+                        <span class="tech-badge">Flutter</span> <span class="tech-badge">React Native</span> 
+                        <span class="tech-badge">SEO Optimization</span> <span class="tech-badge">Meta Ads</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- <section class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title text-center mb-5" data-aos="fade-up">Trusted by Industry Leaders</h2>
+            <div class="row g-4">
+                <div class="col-md-6" data-aos="fade-right">
+                    <div class="testimonial-card shadow-sm">
+                        <p class="fst-italic">"Vantagle transformed our legacy banking system into a modern, high-speed FinTech app. Their attention to security was impressive."</p>
+                        <div class="d-flex align-items-center mt-4">
+                            <div class="fw-bold">Sarah Jenkins — <span class="text-primary">CEO, FinFlow</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left">
+                    <div class="testimonial-card shadow-sm">
+                        <p class="fst-italic">"The video ad campaign they created for our brand went viral in 48 hours. Best creative team we've ever worked with."</p>
+                        <div class="d-flex align-items-center mt-4">
+                            <div class="fw-bold">David Koch — <span class="text-primary">Marketing Head, UrbanMove</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <section class="section-padding bg-white faq-section">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">Common Questions</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion shadow-sm" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1">
+                                    How long does a typical web project take?
+                                </button>
+                            </h2>
+                            <div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted">
+                                    Typically, a standard MVP (Minimum Viable Product) takes 4-6 weeks, while complex enterprise systems can take 3-6 months.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2">
+                                    Do you offer post-launch support?
+                                </button>
+                            </h2>
+                            <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted">
+                                    Yes! Every project includes 3 months of free maintenance and security updates to ensure everything runs smoothly.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="students" class="section-padding student-hub">
+        <div class="container">
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-7" data-aos="fade-right">
+                    <span class="text-primary fw-bold text-uppercase small" style="letter-spacing: 2px;">Empowering Next-Gen Devs</span>
+                    <h2 class="section-title mt-2">Student Innovation Hub</h2>
+                    <p class="text-muted">Are you a final year student? We help you turn your academic requirements into real-world industry-standard projects. From IEEE papers to custom prototypes, we guide you through the full SDLC.</p>
+                </div>
+                <div class="col-lg-5 text-lg-end" data-aos="fade-left">
+                    <a href="students.html" class="btn btn-student">
+                        Browse Project Library <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="academic-card p-4 shadow-sm h-100">
+                        <span class="project-tag">AI & Machine Learning</span>
+                        <h5 class="fw-bold mt-3">Symptom-Based Disease Prediction</h5>
+                        <p class="text-muted small">A Python-based project using Random Forest algorithms to predict potential health risks with 94% accuracy.</p>
+                        <hr class="opacity-10">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="small text-primary fw-bold">Python / Flask</span>
+                            <a href="#" class="text-dark"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="academic-card p-4 shadow-sm h-100">
+                        <span class="project-tag">Blockchain</span>
+                        <h5 class="fw-bold mt-3">Secure E-Voting System</h5>
+                        <p class="text-muted small">Decentralized voting platform ensuring zero data tampering using Ethereum Smart Contracts.</p>
+                        <hr class="opacity-10">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="small text-primary fw-bold">Solidity / Web3.js</span>
+                            <a href="#" class="text-dark"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="academic-card p-4 shadow-sm h-100">
+                        <span class="project-tag">Internet of Things</span>
+                        <h5 class="fw-bold mt-3">Smart Agriculture Monitor</h5>
+                        <p class="text-muted small">Real-time soil moisture and weather monitoring system using Arduino and a mobile dashboard.</p>
+                        <hr class="opacity-10">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="small text-primary fw-bold">C++ / Firebase</span>
+                            <a href="#" class="text-dark"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-5 pt-4 text-center g-4">
+                <div class="col-6 col-md-3" data-aos="fade-up">
+                    <i class="fas fa-file-pdf fa-2x text-muted mb-2"></i>
+                    <p class="fw-bold mb-0">Thesis Support</p>
+                </div>
+                <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-code fa-2x text-muted mb-2"></i>
+                    <p class="fw-bold mb-0">Code Explanation</p>
+                </div>
+                <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-vial fa-2x text-muted mb-2"></i>
+                    <p class="fw-bold mb-0">System Testing</p>
+                </div>
+                <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-chalkboard-teacher fa-2x text-muted mb-2"></i>
+                    <p class="fw-bold mb-0">Viva Preparation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<section id="team" class="section-padding bg-dark text-white" style="padding: 100px 0;">
+        <div class="container text-center">
+            <h2 class="section-title text-white serif display-4" data-aos="fade-up">The Digital Architects</h2>
+            <p class="text-white-50 mb-5 ls-2 text-uppercase small" data-aos="fade-up" data-aos-delay="100">Our team driving innovation and growth.</p>
+            
+            <div class="row g-4 g-lg-5 justify-content-center">
+                
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="WhatsApp Image 2025-03-30 at 5.59.53 PM (1).jpeg" class="rounded-pill mb-4 team-img border border-2 border-secondary" width="140" height="140" style="object-fit: cover; filter: grayscale(100%) contrast(1.1);" alt="CEO">
+                    <h5 class="serif">Aswin K Anil</h5>
+                    <p class="small text-uppercase" style="color: var(--gold) !important;">Web Developer</p>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="WhatsApp Image 2026-01-05 at 11.23.40 PM.jpeg" class="rounded-pill mb-4 team-img border border-2 border-secondary" width="140" height="140" style="object-fit: cover; filter: grayscale(100%) contrast(1.1);" alt="CTO">
+                    <h5 class="serif">Azneed</h5>
+                    <p class="small text-uppercase" style="color: var(--gold) !important;">Web Designer </p>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="400">
+                    <img src="05.01.2026_23.30.54_REC.png" class="rounded-pill mb-4 team-img border border-2 border-secondary" width="140" height="140" style="object-fit: cover; filter: grayscale(100%) contrast(1.1);" alt="Creative Lead">
+                    <h5 class="serif">Jince Jolly</h5>
+                    <p class="small text-uppercase" style="color: var(--gold) !important;">UX / Design Head</p>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="500">
+                    <img src="WhatsApp Image 2025-07-14 at 8.45.06 PM.jpeg" class="rounded-pill mb-4 team-img border border-2 border-secondary" width="140" height="140" style="object-fit: cover; filter: grayscale(100%) contrast(1.1);" alt="Marketing Head">
+                    <h5 class="serif">Sanjay Sanker</h5>
+                    <p class="small text-uppercase" style="color: var(--gold) !important;">Digital Marketing</p>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-2" data-aos="zoom-in" data-aos-delay="600">
+                    <img src="IMG_4256.png" class="rounded-pill mb-4 team-img border border-2 border-secondary" width="140" height="140" style="object-fit: cover; filter: grayscale(100%) contrast(1.1);" alt="Client Relations">
+                    <h5 class="serif">Aflah Nassar</h5>
+                    <p class="small text-uppercase" style="color: var(--gold) !important;">Digital Marketing</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section id="contact" class="section-padding">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-5" data-aos="fade-right">
+                    <h2 class="section-title">Let's talk about your project</h2>
+                    <p class="text-muted mb-4">We respond to all inquiries within 12 hours. Let's build something extraordinary together.</p>
+                    <div class="d-flex mb-3">
+                        <div class="icon-box me-3"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <p class="mb-0 fw-bold">Email us</p>
+                            <p class="text-muted">contactventagle@gmail.com<p> +91 7736671519</p>
+</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7" data-aos="fade-left">
+                    <div class="card border-0 shadow-lg p-4 p-md-5 rounded-4" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);">
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-md-6"><input type="text" class="form-control" placeholder="Your Name"></div>
+                                <div class="col-md-6"><input type="email" class="form-control" placeholder="Email Address"></div>
+                                <div class="col-12"><input type="text" class="form-control" placeholder="Subject"></div>
+                                <div class="col-12"><textarea class="form-control" rows="5" placeholder="Tell us about your project..."></textarea></div>
+<div class="col-12">
+    <a href="https://wa.me/917736671519?text=Hello%20Vantagle%20Team,%20I%20am%20interested%20in%20your%20ERP%20services." 
+       target="_blank" 
+       class="text-decoration-none">
+        <button class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow">
+            <i class="fab fa-whatsapp me-2"></i>Send Inquiry
+        </button>
+    </a>
+</div>                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-5 bg-dark text-white border-top border-secondary">
+        <div class="container text-center">
+            <h3 class="fw-bold mb-4">VEN<span class="text-primary">TAGLE</span></h3>
+            <div class="social-links mb-4">
+                <a href="#" class="btn btn-outline-light btn-sm mx-1 rounded-circle"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="btn btn-outline-light btn-sm mx-1 rounded-circle"><i class="fab fa-github"></i></a>
+                <a href="#" class="btn btn-outline-light btn-sm mx-1 rounded-circle"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p class="text-white-50 small">&copy; 2025 Ventagle Collective. Designed for high performance.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            mirror: false
+        });
+
+        // Loading screen
+        window.addEventListener('load', () => {
+            document.getElementById('loader').classList.add('hidden');
+        });
+
+        // Navbar scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Counter animation
+        const counters = document.querySelectorAll('.counter');
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const target = parseInt(counter.textContent.replace(/[^0-9]/g, ''));
+                let count = 0;
+                const increment = target / 100;
+                const updateCounter = () => {
+                    count += increment;
+                    if (count < target) {
+                        counter.textContent = Math.floor(count) + (counter.textContent.includes('+') ? '+' : '');
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target + (counter.textContent.includes('+') ? '+' : '');
+                        counter.classList.add('animate');
+                    }
+                };
+                updateCounter();
+            });
+        };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+        observer.observe(document.querySelector('.stats-section'));
+    </script>
+</body>
+</html>

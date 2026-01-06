@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | DevGroup Premium Digital Collective</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #8b5cf6;
+            --secondary-color: #ec4899;
+            --dark-bg: #0f172a;
+            --light-bg: #f8fafc;
+            --gradient-purple: linear-gradient(135deg, #8b5cf6, #ec4899);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #334155;
+            background-color: var(--light-bg);
+            overflow-x: hidden;
+        }
+
+        /* Navbar (Same as Index) */
+        .navbar {
+            padding: 1rem 0;
+            background: rgba(15, 23, 42, 0.95) !important;
+            backdrop-filter: blur(15px);
+        }
+
+        /* Hero Section with Video */
+        .about-hero {
+            height: 60vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+        }
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.9), rgba(139, 92, 246, 0.4));
+            z-index: -1;
+        }
+
+        .section-title {
+            font-weight: 700;
+            font-size: 2.5rem;
+            background: var(--gradient-purple);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Story Cards */
+        .story-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            height: 100%;
+        }
+
+        /* Values Section */
+        .value-box {
+            padding: 30px;
+            border-radius: 15px;
+            background: var(--dark-bg);
+            color: white;
+            transition: 0.3s;
+        }
+        .value-box:hover {
+            transform: translateY(-10px);
+            background: var(--gradient-purple);
+        }
+        .value-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* Methodology Timeline */
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-purple);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            background: var(--dark-bg);
+            color: white;
+            padding: 60px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3" href="index.html">VENT<span class="text-primary">AGLE</span></a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link px-3 active" href="#">About</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="index.html#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="index.html#portfolio">Our Work</a></li>
+                    <li class="nav-item ms-lg-3"><a class="btn btn-primary px-4 py-2 rounded-pill border-0" style="background: var(--gradient-purple)" href="index.html#contact">Work With Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="about-hero">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_25fps.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="container text-center">
+            <h1 class="display-2 fw-800 mb-3" data-aos="zoom-in">Our Journey</h1>
+            <p class="lead fs-4 opacity-75" data-aos="fade-up" data-aos-delay="200">Architecting digital excellence through collaboration and code.</p>
+        </div>
+    </header>
+
+    <section class="py-5 mt-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-6" data-aos="fade-right">
+                    <div class="story-card">
+                        <h2 class="section-title">The Mission</h2>
+                        <p class="text-muted fs-5">To bridge the gap between complex technological challenges and elegant, user-centric solutions. We empower businesses and students alike to navigate the digital landscape with confidence and high-performance tools.</p>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left">
+                    <div class="story-card">
+                        <h2 class="section-title">The Vision</h2>
+                        <p class="text-muted fs-5">Becoming the global benchmark for elite freelance collectives—where innovation isn't just a buzzword, but a standard delivered in every line of code and every frame of motion we create.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-white">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">What Defines Us</h2>
+                <p class="text-muted">Our core values are baked into every project we touch.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="value-box">
+                        <span class="value-icon"><i class="fas fa-microchip"></i></span>
+                        <h4>Cutting Edge</h4>
+                        <p class="opacity-75">We don't settle for "good enough." We use the latest frameworks like Next.js and Flutter to ensure your tech is future-proof.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="value-box">
+                        <span class="value-icon"><i class="fas fa-shield-halved"></i></span>
+                        <h4>Security First</h4>
+                        <p class="opacity-75">Data integrity is our religion. From FinTech dashboards to IoT systems, we prioritize encryption and safe architecture.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="value-box">
+                        <span class="value-icon"><i class="fas fa-users-gear"></i></span>
+                        <h4>Agile Process</h4>
+                        <p class="opacity-75">Our 4-week MVP sprints mean you see results fast, with constant communication and iterative improvements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">How We Work</h2>
+            <div class="row g-4 text-center">
+                <div class="col-6 col-lg-3" data-aos="zoom-in">
+                    <div class="step-circle mx-auto">01</div>
+                    <h5 class="fw-bold">Consultation</h5>
+                    <p class="small text-muted">Defining your goals and scope.</p>
+                </div>
+                <div class="col-6 col-lg-3" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="step-circle mx-auto">02</div>
+                    <h5 class="fw-bold">Strategy</h5>
+                    <p class="small text-muted">UI/UX Design & Architecture.</p>
+                </div>
+                <div class="col-6 col-lg-3" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="step-circle mx-auto">03</div>
+                    <h5 class="fw-bold">Development</h5>
+                    <p class="small text-muted">Coding with 24/7 testing.</p>
+                </div>
+                <div class="col-6 col-lg-3" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="step-circle mx-auto">04</div>
+                    <h5 class="fw-bold">Deployment</h5>
+                    <p class="small text-muted">Launch and ongoing support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container text-center">
+            <h3 class="fw-bold">VENT<span class="text-primary">AGLE</span></h3>
+            <p class="opacity-50 mt-3">© 2026 Vantagle Digital Collective. All rights reserved.</p>
+            <div class="mt-4">
+                <a href="#" class="text-white mx-2"><i class="fab fa-linkedin fa-lg"></i></a>
+                <a href="#" class="text-white mx-2"><i class="fab fa-github fa-lg"></i></a>
+                <a href="#" class="text-white mx-2"><i class="fab fa-instagram fa-lg"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    </script>
+</body>
+</html>

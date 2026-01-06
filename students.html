@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Project Hub | Vantagle Premium</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #ec4899;
+            --accent: #00f2fe;
+            --dark-bg: #0f172a;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Video Background */
+        .video-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+        .video-container video {
+            min-width: 100%; min-height: 100%;
+            object-fit: cover;
+            opacity: 0.3; /* Subtle background presence */
+        }
+        .video-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(15,23,42,0.7) 0%, rgba(15,23,42,1) 100%);
+            z-index: -1;
+        }
+
+        /* Hero & Search */
+        .hub-hero {
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+        .search-wrapper {
+            max-width: 700px;
+            margin: 40px auto;
+            position: relative;
+        }
+        .search-input {
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            padding: 18px 30px;
+            color: white;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            font-size: 1.1rem;
+            transition: 0.3s;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Project Cards */
+        .project-card {
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 25px;
+            height: 100%;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+        }
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        .category-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            margin-bottom: 10px;
+            display: block;
+            font-weight: 700;
+        }
+        .project-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+        .tech-pill {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.15);
+            color: #c4b5fd;
+            padding: 3px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            margin: 2px;
+        }
+        .base-paper-link {
+            margin-top: auto;
+            color: var(--accent);
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-top: 20px;
+        }
+        .base-paper-link:hover { color: white; }
+
+        /* Filter Pills */
+        .filter-container {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .filter-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 22px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-container">
+        <video autoplay muted loop playsinline>
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-matrix-style-data-codes-animation-4621-large.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent pt-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3" href="index.html">VENT<span style="color:var(--primary)">AGLE</span></a>
+            <div class="ms-auto">
+                <a href="index.html#contact" class="btn btn-outline-light rounded-pill px-4">Get Mentorship</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hub-hero" data-aos="fade-up">
+            <h1 class="display-3 fw-bold">Project <span style="background: linear-gradient(to right, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Knowledge Base</span></h1>
+            <p class="lead opacity-75">Access 100+ cutting-edge IEEE topics across Healthcare, Security, and AI.</p>
+            
+            <div class="search-wrapper">
+                <i class="fas fa-search position-absolute" style="left: 25px; top: 22px; opacity: 0.5;"></i>
+                <input type="text" id="topicSearch" class="search-input" placeholder="Search by disease, technology (e.g., 'CNN'), or keywords...">
+            </div>
+
+            <div class="filter-container">
+                <button class="filter-btn active" data-filter="all">All Topics</button>
+                <button class="filter-btn" data-filter="health">Healthcare AI</button>
+                <button class="filter-btn" data-filter="cyber">Cyber Security</button>
+                <button class="filter-btn" data-filter="bio">Bioinformatics</button>
+                <button class="filter-btn" data-filter="biometric">Biometrics</button>
+            </div>
+        </div>
+
+        <div class="row g-4" id="projectGrid">
+            </div>
+    </div>
+
+    <footer class="text-center py-5 mt-5">
+        <p class="opacity-50">© 2026 Vantagle Premium Collective. Advanced Research Division.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        // DATABASE OF TOPICS (Formatted for the design)
+        const projects = [
+            { title: "Paper ECG Digitization and Heart Disease Detection using Deep Learning", cat: "health", tech: ["Deep Learning", "Python"] },
+            { title: "Air Quality Prediction web app using Machine Learning and HTML", cat: "all", tech: ["ML", "Web"] },
+            { title: "Phishing website detection web portal", cat: "cyber", tech: ["Scraping", "ML", "Python"], paper: "https://ieeexplore.ieee.org/document/9824801" },
+            { title: "Virtual desktop assistant using voice and hand gesture command using AI", cat: "all", tech: ["AI", "OpenCV"] },
+            { title: "Malware detection website using python machine learning", cat: "cyber", tech: ["ML", "Security"] },
+            { title: "Sign language recognition communication web portal", cat: "all", tech: ["MediaPipe", "Deep Learning"] },
+            { title: "Covid-19 diagnosis from chest X-ray images using Deep Learning", cat: "health", tech: ["CNN", "X-Ray"] },
+            { title: "Twitter cyberbullying detection dashboard", cat: "cyber", tech: ["NLP", "ML"] },
+            { title: "Underwater fish classification and segmentation", cat: "all", tech: ["Deep Learning", "Segmentation"] },
+            { title: "Deep Learning for Smartphone-Based Malaria Parasite Detection", cat: "bio", tech: ["Deep Learning", "Bioinformatics"], paper: "https://ieeexplore.ieee.org/document/8846750" },
+            { title: "Ransomware detection using Machine Learning Techniques", cat: "cyber", tech: ["ML", "Ransomware"], paper: "https://ieeexplore.ieee.org/document/9720869" },
+            { title: "Anticancer Drug Response prediction using Manifold Learning", cat: "bio", tech: ["RNN", "Protein Prediction"], paper: "https://www.nature.com/articles/s41598-020-71257-7" },
+            { title: "Face template protection using deep convolutional networks", cat: "biometric", tech: ["Biometrics", "CNN"] },
+            { title: "Fake Review detection using Machine Learning", cat: "cyber", tech: ["ML", "Python"] }
+            // All 100+ topics can be added to this array...
+        ];
+
+        // RENDER FUNCTION
+        const grid = document.getElementById('projectGrid');
+        const searchInput = document.getElementById('topicSearch');
+
+        function displayProjects(data) {
+            grid.innerHTML = data.map(p => `
+                <div class="col-lg-4 col-md-6 project-item" data-category="${p.cat}">
+                    <div class="project-card">
+                        <span class="category-tag">${p.cat}</span>
+                        <h5 class="project-title">${p.title}</h5>
+                        <div class="tech-stack">
+                            ${p.tech.map(t => `<span class="tech-pill">${t}</span>`).join('')}
+                        </div>
+                        ${p.paper ? `<a href="${p.paper}" target="_blank" class="base-paper-link"><i class="fas fa-external-link-alt"></i> View IEEE Paper</a>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // INITIAL LOAD
+        displayProjects(projects);
+
+        // SEARCH LOGIC
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = projects.filter(p => 
+                p.title.toLowerCase().includes(term) || 
+                p.tech.some(t => t.toLowerCase().includes(term))
+            );
+            displayProjects(filtered);
+        });
+
+        // FILTER LOGIC
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelector('.filter-btn.active').classList.remove('active');
+                btn.classList.add('active');
+                const filter = btn.getAttribute('data-filter');
+                const filtered = filter === 'all' ? projects : projects.filter(p => p.cat === filter);
+                displayProjects(filtered);
+            });
+        });
+    </script>
+</body>
+</html>

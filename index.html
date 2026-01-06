@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevGroup | Premium Digital Collective</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
         :root {
-            --primary-color: #8b5cf6; /* Purple theme for different colors */
-            --secondary-color: #ec4899; /* Pink accent */
+            --primary-color: #8b5cf6;
+            --secondary-color: #ec4899;
             --dark-bg: #0f172a;
             --light-bg: #f8fafc;
             --gradient-purple: linear-gradient(135deg, #8b5cf6, #ec4899);
@@ -20,7 +20,8 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            color: #334155;
+            color: #f1f5f9;
+            background: var(--dark-bg);
             line-height: 1.6;
             overflow-x: hidden;
         }
@@ -42,10 +43,9 @@
         #loader.hidden {
             opacity: 0;
             visibility: hidden;
-
         }
         .loader-logo {
-            font-size: 4rem;
+            font-size: clamp(2.8rem, 10vw, 4rem);
             font-weight: 800;
             background: var(--gradient-purple);
             -webkit-background-clip: text;
@@ -57,7 +57,7 @@
             50% { transform: scale(1.05); }
         }
 
-        /* Navbar */
+        /* Navbar - Mobile Fix */
         .navbar {
             padding: 1rem 0;
             background: rgba(15, 23, 42, 0.95) !important;
@@ -65,13 +65,16 @@
             transition: all 0.3s ease;
         }
         .navbar.scrolled {
-            padding: 0.5rem 0;
+            padding: 0.75rem 0;
             background: rgba(15, 23, 42, 0.98) !important;
         }
+        .navbar-dark .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.95%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
 
-        /* Hero with Background Video */
+        /* Hero - Mobile Responsive */
         .hero-section {
-            height: 90vh;
+            min-height: 90vh;
             position: relative;
             display: flex;
             align-items: center;
@@ -92,8 +95,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(139, 92, 246, 0.3));
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(139, 92, 246, 0.35));
             z-index: -1;
+        }
+        @media (max-width: 768px) {
+            .hero-section { min-height: 70vh; text-align: center; }
+            .hero-title { font-size: clamp(2.5rem, 8vw, 3.8rem) !important; }
+            .lead { font-size: clamp(1.1rem, 5vw, 1.35rem) !important; }
+            .d-flex.gap-3 { flex-direction: column; align-items: center; gap: 1rem !important; }
         }
 
         @keyframes float {
@@ -114,6 +123,8 @@
         }
 
         .section-padding { padding: 100px 0; }
+        @media (max-width: 576px) { .section-padding { padding: 60px 15px; } }
+
         .section-title {
             font-weight: 700;
             font-size: 2.5rem;
@@ -180,22 +191,23 @@
             transform: translateY(0);
         }
 
-        /* Ticker */
+        /* Ticker - Mobile Scrollable */
         .ticker-container {
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.95);
+            overflow-x: auto;
+            white-space: nowrap;
             padding: 60px 0;
-            border-top: 1px solid #f1f5f9;
-            border-bottom: 1px solid #f1f5f9;
         }
         .ticker-wrapper {
-            display: flex;
+            display: inline-flex;
             width: calc(250px * 12);
             animation: infiniteScroll 30s linear infinite;
         }
         @keyframes infiniteScroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(calc(-250px * 6)); }
+        }
+        @media (max-width: 576px) {
+            .ticker-wrapper { animation: none; } /* Pause animation on small screens */
         }
         .client-box {
             width: 250px;
@@ -240,7 +252,7 @@
             border-top: 1px solid rgba(255,255,255,0.1);
         }
         .stat-item h2 {
-            font-size: 3rem;
+            font-size: clamp(2rem, 8vw, 3rem);
             font-weight: 800;
             background: var(--gradient-purple);
             -webkit-background-clip: text;
@@ -248,26 +260,25 @@
         }
 
         /* Tech Badges */
-.tech-badge {
-    padding: 10px 24px;
-    background: rgba(212, 175, 55, 0.05); /* Very faint Gold tint */
-    border: 1px solid rgba(212, 175, 55, 0.4); /* Subtle Gold border */
-    border-radius: 50px;
-    font-weight: 500;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    display: inline-block;
-    margin: 5px;
-    transition: 0.3s;
-    color: #ec4899; /* The exact Gold from your :root */
-    text-transform: uppercase;
-}
-
-.tech-badge:hover {
-    background: #D4AF37;
-    color: #0B0B0B;
-    transform: translateY(-2px);
-}
+        .tech-badge {
+            padding: 8px 16px;
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin: 5px;
+            transition: 0.3s;
+            color: #ec4899;
+            text-transform: uppercase;
+        }
+        .tech-badge:hover {
+            background: #D4AF37;
+            color: #0B0B0B;
+            transform: translateY(-2px);
+        }
 
         /* Testimonials */
         .testimonial-card {
@@ -294,13 +305,13 @@
 
         /* Student Hub */
         .student-hub {
-            background: linear-gradient(to right, rgba(248, 250, 252, 0.1), rgba(236, 72, 153, 0.1));
+            background: linear-gradient(to right, #f8fafc, rgba(215, 7, 111, 0.1));
             border-radius: 50px;
             margin: 40px 0;
             backdrop-filter: blur(10px);
         }
         .academic-card {
-            background: rgba(255, 255, 255, 0.1);
+            background:  #f8fafc;;
             border: none;
             border-radius: 20px;
             transition: 0.3s ease;
@@ -357,7 +368,7 @@
 
         /* Counters Animation */
         .counter {
-            font-size: 3rem;
+            font-size: clamp(2.2rem, 8vw, 3rem);
             font-weight: 800;
             transition: all 0.3s ease;
         }
@@ -388,13 +399,14 @@
                     <li class="nav-item"><a class="nav-link px-3" href="about.html">About</a></li>
                     <li class="nav-item"><a class="nav-link px-3" href="services.html">Services</a></li>
                     <li class="nav-item"><a class="nav-link px-3" href="works.html">Our Product</a></li>
-<li class="nav-item ms-lg-3">
-    <a class="btn btn-primary px-4 py-2 rounded-pill" 
-       href="https://wa.me/917736671519?text=Hello%20Vantagle%20Team,%20I%20am%20interested%20in%20your%20ERP%20services." 
-       target="_blank">
-       Contact Us
-    </a>
-</li>                </ul>
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn btn-primary px-4 py-2 rounded-pill" 
+                           href="https://wa.me/917736671519?text=Hello%20Vantagle%20Team,%20I%20am%20interested%20in%20your%20ERP%20services." 
+                           target="_blank">
+                           Contact Us
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -410,7 +422,7 @@
                     <span class="badge bg-primary px-3 py-2 mb-3 rounded-pill shadow-sm">Elite Freelance Collective</span>
                     <h1 class="hero-title mb-4">We code the Future of your business.</h1>
                     <p class="lead mb-5 fs-4 text-light">From scalable web applications to high-impact digital marketing, we deliver end-to-end technology solutions.</p>
-                    <div class="d-flex gap-3">
+                    <div class="d-flex gap-3 flex-wrap justify-content-center justify-content-lg-start">
                         <a href="#portfolio" class="btn btn-primary btn-lg px-5 py-3 rounded-pill">View Projects</a>
                         <a href="#contact" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill">Get a Quote</a>
                     </div>
@@ -419,56 +431,7 @@
         </div>
     </header>
 
-    <!-- <section class="ticker-container">
-        <div class="container text-center">
-            <span class="ticker-title" data-aos="fade-up">Trusted by innovative brands</span>
-        </div>
-        
-        <div class="ticker-wrapper">
-            <div class="client-box">
-<a href="https://multicomgiftscheme.in/" target="_blank" rel="noopener noreferrer" class="logo-link">
-    <img src="logo1.png" class="client-logo" alt="Amazon">
-</a>            </div>
-            <div class="client-box">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="client-logo" alt="Google">
-            </div>
-            <div class="client-box">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" class="client-logo" alt="Netflix">
-            </div>
-            <div class="client-box">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Slack_Technologies_Logo.svg" class="client-logo" alt="Slack">
-            </div>
-            <div class="client-box">
-<a href="https://wistoraiq.com/" target="_blank" rel="noopener noreferrer" class="logo-link">
-    <img src="wisw.png" class="client-logo" alt="Wistoraiqsolution">
-</a>            </div>
-            <div class="client-box">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Meta_Platforms_Inc._logo.svg" class="client-logo" alt="Meta">
-            </div>
-
-            <div class="client-box">
-                <a href="https://multicomgiftscheme.in/" target="_blank" rel="noopener noreferrer" class="logo-link">
-    <img src="logo1.png" class="client-logo" alt="Amazon">
-</a> 
-            </div>
-            <div class="client-box">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="client-logo" alt="Google">
-            </div>
-            <div class="client-box">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" class="client-logo" alt="Netflix">
-            </div>
-            <div class="client-box">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Slack_Technologies_Logo.svg" class="client-logo" alt="Slack">
-            </div>
-            <div class="client-box">
-<a href="https://wistoraiq.com/" target="_blank" rel="noopener noreferrer" class="logo-link">
-    <img src="wisw.png" class="client-logo" alt="Wistoraiqsolution">
-</a>            </div>
-            <div class="client-box">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Meta_Platforms_Inc._logo.svg" class="client-logo" alt="Meta">
-            </div>
-        </div>
-    </section> -->
+ 
 
     <section id="services" class="section-padding bg-light">
         <div class="container">
@@ -585,30 +548,6 @@
         </div>
     </section>
 
-    <!-- <section class="section-padding bg-light">
-        <div class="container">
-            <h2 class="section-title text-center mb-5" data-aos="fade-up">Trusted by Industry Leaders</h2>
-            <div class="row g-4">
-                <div class="col-md-6" data-aos="fade-right">
-                    <div class="testimonial-card shadow-sm">
-                        <p class="fst-italic">"Vantagle transformed our legacy banking system into a modern, high-speed FinTech app. Their attention to security was impressive."</p>
-                        <div class="d-flex align-items-center mt-4">
-                            <div class="fw-bold">Sarah Jenkins — <span class="text-primary">CEO, FinFlow</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6" data-aos="fade-left">
-                    <div class="testimonial-card shadow-sm">
-                        <p class="fst-italic">"The video ad campaign they created for our brand went viral in 48 hours. Best creative team we've ever worked with."</p>
-                        <div class="d-flex align-items-center mt-4">
-                            <div class="fw-bold">David Koch — <span class="text-primary">Marketing Head, UrbanMove</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-
     <section class="section-padding bg-white faq-section">
         <div class="container">
             <h2 class="section-title text-center mb-5">Common Questions</h2>
@@ -664,7 +603,7 @@
                 <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
                     <div class="academic-card p-4 shadow-sm h-100">
                         <span class="project-tag">AI & Machine Learning</span>
-                        <h5 class="fw-bold mt-3">Symptom-Based Disease Prediction</h5>
+                        <h5 style="color: #eb0b95;">Symptom-Based Disease Prediction</h5>
                         <p class="text-muted small">A Python-based project using Random Forest algorithms to predict potential health risks with 94% accuracy.</p>
                         <hr class="opacity-10">
                         <div class="d-flex justify-content-between align-items-center">
@@ -677,7 +616,7 @@
                 <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
                     <div class="academic-card p-4 shadow-sm h-100">
                         <span class="project-tag">Blockchain</span>
-                        <h5 class="fw-bold mt-3">Secure E-Voting System</h5>
+                        <h5 style="color: #eb0b95;">Secure E-Voting System</h5>
                         <p class="text-muted small">Decentralized voting platform ensuring zero data tampering using Ethereum Smart Contracts.</p>
                         <hr class="opacity-10">
                         <div class="d-flex justify-content-between align-items-center">
@@ -690,7 +629,7 @@
                 <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
                     <div class="academic-card p-4 shadow-sm h-100">
                         <span class="project-tag">Internet of Things</span>
-                        <h5 class="fw-bold mt-3">Smart Agriculture Monitor</h5>
+                        <h5 style="color: #eb0b95;">Smart Agriculture Monitor</h5>
                         <p class="text-muted small">Real-time soil moisture and weather monitoring system using Arduino and a mobile dashboard.</p>
                         <hr class="opacity-10">
                         <div class="d-flex justify-content-between align-items-center">
@@ -722,7 +661,7 @@
         </div>
     </section>
 
-<section id="team" class="section-padding bg-dark text-white" style="padding: 100px 0;">
+    <section id="team" class="section-padding bg-dark text-white" style="padding: 100px 0;">
         <div class="container text-center">
             <h2 class="section-title text-white serif display-4" data-aos="fade-up">The Digital Architects</h2>
             <p class="text-white-50 mb-5 ls-2 text-uppercase small" data-aos="fade-up" data-aos-delay="100">Our team driving innovation and growth.</p>
@@ -762,17 +701,18 @@
             </div>
         </div>
     </section>
+
     <section id="contact" class="section-padding">
         <div class="container">
             <div class="row g-5">
                 <div class="col-lg-5" data-aos="fade-right">
-                    <h2 class="section-title">Let's talk about your project</h2>
-                    <p class="text-muted mb-4">We respond to all inquiries within 12 hours. Let's build something extraordinary together.</p>
+                    <h2 class="section-title" >Let's talk about your project</h2>
+                    <p style="color: #f1f5f9;">We respond to all inquiries within 12 hours. Let's build something extraordinary together.</p>
                     <div class="d-flex mb-3">
                         <div class="icon-box me-3"><i class="fas fa-envelope"></i></div>
                         <div>
                             <p class="mb-0 fw-bold">Email us</p>
-                            <p class="text-muted">contactventagle@gmail.com<p> +91 7736671519</p>
+                            <p style="color: #f1f5f9;">contactventagle@gmail.com<p> +91 7736671519</p>
 </p>
                         </div>
                     </div>
@@ -785,15 +725,16 @@
                                 <div class="col-md-6"><input type="email" class="form-control" placeholder="Email Address"></div>
                                 <div class="col-12"><input type="text" class="form-control" placeholder="Subject"></div>
                                 <div class="col-12"><textarea class="form-control" rows="5" placeholder="Tell us about your project..."></textarea></div>
-<div class="col-12">
-    <a href="https://wa.me/917736671519?text=Hello%20Vantagle%20Team,%20I%20am%20interested%20in%20your%20ERP%20services." 
-       target="_blank" 
-       class="text-decoration-none">
-        <button class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow">
-            <i class="fab fa-whatsapp me-2"></i>Send Inquiry
-        </button>
-    </a>
-</div>                            </div>
+                                <div class="col-12">
+                                    <a href="https://wa.me/917736671519?text=Hello%20Vantagle%20Team,%20I%20am%20interested%20in%20your%20ERP%20services." 
+                                       target="_blank" 
+                                       class="text-decoration-none">
+                                        <button class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow">
+                                            <i class="fab fa-whatsapp me-2"></i>Send Inquiry
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -813,7 +754,7 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         // Initialize AOS
